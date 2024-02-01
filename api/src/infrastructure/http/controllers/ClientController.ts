@@ -15,7 +15,7 @@ export class ClientController {
             return res.status(400).json({ errors })
         }
 
-        return res.status(201).json({ message: 'teste' })
+        return res.status(201).json({ message: req.body })
     }
 
     async update(req: Request, res: Response): Promise<Response<any>> {
