@@ -17,6 +17,7 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "max-len": ["error", { "code": 100 }]
   }
 }
