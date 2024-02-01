@@ -1,23 +1,36 @@
 import type { Request, Response } from 'express'
+import { ClientValidator } from '../../../validators/ClientValidator'
 
 export class ClientController {
-    store(req: Request, res: Response): Response<any> {
+    private readonly validator: ClientValidator
+
+    constructor() {
+        this.validator = new ClientValidator()
+    }
+
+    async store(req: Request, res: Response): Promise<Response<any>> {
+        const errors = await this.validator.validateStore(req)
+
+        if (errors !== false) {
+            return res.status(400).json({ errors })
+        }
+
         return res.status(201).json({ message: 'teste' })
     }
 
-    update(req: Request, res: Response): Response<any> {
+    async update(req: Request, res: Response): Promise<Response<any>> {
         return res.status(201).json({ message: 'teste' })
     }
 
-    destroy(req: Request, res: Response): Response<any> {
+    async destroy(req: Request, res: Response): Promise<Response<any>> {
         return res.status(201).json({ message: 'teste' })
     }
 
-    index(req: Request, res: Response): Response<any> {
+    async index(req: Request, res: Response): Promise<Response<any>> {
         return res.status(201).json({ message: 'teste' })
     }
 
-    show(req: Request, res: Response): Response<any> {
+    async show(req: Request, res: Response): Promise<Response<any>> {
         return res.status(201).json({ message: 'teste' })
     }
 }

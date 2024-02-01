@@ -18,9 +18,13 @@ export class Routers {
         const controller = new ClientController()
 
         this.router.post(`${baseURL}`, (req, res) => controller.store(req, res))
+
         this.router.put(`${baseURL}/:id`, (req, res) => controller.update(req, res))
+
         this.router.delete(`${baseURL}/:id`, (req, res) => controller.destroy(req, res))
+
         this.router.get(`${baseURL}`, (req, res) => controller.index(req, res))
+
         this.router.get(`${baseURL}/:id`, (req, res) => controller.show(req, res))
     }
 }
