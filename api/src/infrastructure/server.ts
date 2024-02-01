@@ -2,7 +2,7 @@ import express from 'express'
 import { Routers } from '../routers'
 import { bodyParserMiddleware } from './http/middlewares/bodyParserMiddleware'
 
-export class App {
+export class Server {
     public server: express.Application
 
     constructor() {

@@ -2,7 +2,7 @@
   "name": "facilitajuridico",
   "version": "1.0.0",
   "description": "Esse é um projeto para o teste técnico do processo seletivo da empresa Facilita Jurídico.",
-  "main": "server.js",
+  "main": "src/index.ts",
   "scripts": {
     "start:dev": "nodemon",
     "checkStyleCode": "npx prettier --write src/ && npx eslint src/**",

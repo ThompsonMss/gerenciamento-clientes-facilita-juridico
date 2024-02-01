@@ -1,10 +1,10 @@
 import 'dotenv/config'
 
-import { App } from './app'
+import { Server } from './infrastructure/server'
 
 const PORT = process.env.POST ?? 3333
 
 // Iniciando minha aplicação
-new App().server.listen(PORT, () => {
+new Server().server.listen(PORT, () => {
     console.log('Server is running.')
 })
