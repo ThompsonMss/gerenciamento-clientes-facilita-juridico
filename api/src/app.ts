@@ -1,2 +1,19 @@
-const teste = 'De like no video'
-console.log(teste)
+import express from 'express'
+
+export class App {
+    public server: express.Application
+
+    constructor() {
+        this.server = express()
+        this.middleware()
+        this.router()
+    }
+
+    private middleware(): void {
+        this.server.use(express.json())
+    }
+
+    private router(): void {
+        this.server.use(express.json())
+    }
+}
