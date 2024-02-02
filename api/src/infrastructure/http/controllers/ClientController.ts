@@ -8,6 +8,7 @@ import { getErrorMessageHelper } from '../../../helpers/getErrorMessageHelper'
 import { UpdateClientService } from '../../../application/client/updateClient/UpdateClientService'
 import { getCodeErrorHelper } from '../../../helpers/getCodeErrorHelper'
 import { DeleteClientService } from '../../../application/client/deleteClient/DeleteClientService'
+import { GetClientsService } from '../../../application/client/getClients/GetClientsService'
 
 export class ClientController {
     private readonly validator: ClientValidator
@@ -34,7 +35,7 @@ export class ClientController {
                 phone: req.body.phone,
             })
 
-            return res.status(201).json({ client })
+            return res.status(201).json(client)
         } catch (error) {
             return res
                 .status(getCodeErrorHelper(error))
@@ -59,7 +60,7 @@ export class ClientController {
                 phone: req.body.phone,
             })
 
-            return res.status(200).json({ client })
+            return res.status(200).json(client)
         } catch (error) {
             return res
                 .status(getCodeErrorHelper(error))
@@ -75,7 +76,7 @@ export class ClientController {
                 id: parseInt(`${req.params.id}`),
             })
 
-            return res.status(200).json({ client })
+            return res.status(200).json(client)
         } catch (error) {
             return res
                 .status(getCodeErrorHelper(error))
@@ -84,10 +85,31 @@ export class ClientController {
     }
 
     async index(req: Request, res: Response): Promise<Response<any>> {
-        return res.status(201).json({ message: 'teste' })
+        try {
+            const service = new GetClientsService(this.repository)
+
+            const clients = await service.handle()
+            return res.status(200).json(clients)
+        } catch (error) {
+            return res
+                .status(getCodeErrorHelper(error))
+                .json({ error: getErrorMessageHelper(error) })
+        }
     }
 
     async show(req: Request, res: Response): Promise<Response<any>> {
-        return res.status(201).json({ message: 'teste' })
+        try {
+            const service = new GetClientsService(this.repository)
+
+            const client = await service.handle({
+                id: parseInt(`${req.params.id}`),
+            })
+
+            return res.status(200).json(client)
+        } catch (error) {
+            return res
+                .status(getCodeErrorHelper(error))
+                .json({ error: getErrorMessageHelper(error) })
+        }
     }
 }
