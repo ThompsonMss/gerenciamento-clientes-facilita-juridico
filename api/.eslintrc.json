@@ -11,6 +11,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "ignorePatterns": ["*.js", "*.test.js", "*.test.ts"],
   "rules": {
     "@typescript-eslint/no-misused-promises": "off",
     "prettier/prettier": [

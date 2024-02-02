@@ -1,2 +1,5 @@
 build
 node_modules
+*.js
+*.test.js
+*.test.ts
