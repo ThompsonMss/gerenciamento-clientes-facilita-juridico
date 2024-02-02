@@ -17,14 +17,14 @@ export class Routers {
         const baseURL = '/client'
         const controller = new ClientController()
 
-        this.router.post(`${baseURL}`, (req, res) => controller.store(req, res))
+        this.router.post(`${baseURL}`, async (req, res) => await controller.store(req, res))
 
-        this.router.put(`${baseURL}/:id`, (req, res) => controller.update(req, res))
+        this.router.put(`${baseURL}/:id`, async (req, res) => await controller.update(req, res))
 
-        this.router.delete(`${baseURL}/:id`, (req, res) => controller.destroy(req, res))
+        this.router.delete(`${baseURL}/:id`, async (req, res) => await controller.destroy(req, res))
 
-        this.router.get(`${baseURL}`, (req, res) => controller.index(req, res))
+        this.router.get(`${baseURL}`, async (req, res) => await controller.index(req, res))
 
-        this.router.get(`${baseURL}/:id`, (req, res) => controller.show(req, res))
+        this.router.get(`${baseURL}/:id`, async (req, res) => await controller.show(req, res))
     }
 }

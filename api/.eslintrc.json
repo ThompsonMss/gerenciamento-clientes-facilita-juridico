@@ -12,6 +12,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "@typescript-eslint/no-misused-promises": "off",
     "prettier/prettier": [
       "error",
       {
