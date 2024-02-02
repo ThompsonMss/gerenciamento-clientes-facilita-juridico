@@ -33,20 +33,20 @@ services:
       - "database"
     command: npm run start:dev
 
-    frontend:
-        build:
-          context: ./frontend
-        container_name: frontend
-        ports:
-          - "5173:5173"
-        volumes:
-          - ./frontend:/usr/src/app
-        tty: true
-        networks:
-          - facilitajuridico_net
-        depends_on:
-          - "api"
-        command: npm run dev
+  frontend:
+      build:
+        context: ./frontend
+      container_name: frontend
+      ports:
+        - "5173:5173"
+      volumes:
+        - ./frontend:/usr/src/app
+      tty: true
+      networks:
+        - facilitajuridico_net
+      depends_on:
+        - "api"
+      command: npm run dev
 
 volumes:
   database_facilitajuridico:
