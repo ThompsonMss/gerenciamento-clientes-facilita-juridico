@@ -13,7 +13,7 @@ class DatabaseConnection {
         })
     }
 
-    async query<T>(command: string, params?: string[]): Promise<T[]> {
+    async query<T>(command: string, params?: Array<string | null>): Promise<T[]> {
         const result = await this.pool.query(command, params)
         return result.rows
     }

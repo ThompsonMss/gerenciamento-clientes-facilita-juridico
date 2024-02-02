@@ -7,6 +7,7 @@ import DatabaseConnection from '../../persistence/DatabaseConnection'
 import { getErrorMessageHelper } from '../../../helpers/getErrorMessageHelper'
 import { UpdateClientService } from '../../../application/client/updateClient/UpdateClientService'
 import { getCodeErrorHelper } from '../../../helpers/getCodeErrorHelper'
+import { DeleteClientService } from '../../../application/client/deleteClient/DeleteClientService'
 
 export class ClientController {
     private readonly validator: ClientValidator
@@ -67,7 +68,19 @@ export class ClientController {
     }
 
     async destroy(req: Request, res: Response): Promise<Response<any>> {
-        return res.status(201).json({ message: 'teste' })
+        try {
+            const service = new DeleteClientService(this.repository)
+
+            const client = await service.handle({
+                id: parseInt(`${req.params.id}`),
+            })
+
+            return res.status(200).json({ client })
+        } catch (error) {
+            return res
+                .status(getCodeErrorHelper(error))
+                .json({ error: getErrorMessageHelper(error) })
+        }
     }
 
     async index(req: Request, res: Response): Promise<Response<any>> {

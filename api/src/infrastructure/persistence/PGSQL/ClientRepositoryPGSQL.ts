@@ -31,9 +31,11 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
           name = $1,
           email = $2,
           dddphone = $3,
-          phone = $4
+          phone = $4,
+          updatedat = $5,
+          deletedat = $6
         WHERE 
-          id = $5
+          id = $7
         RETURNING *`
 
         const [result]: InterfaceClient[] = await this.conn.query(sql, [
@@ -41,6 +43,8 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
             data.getEmail(),
             data.getDddPhone(),
             data.getPhone(),
+            data.getUpdatedat(),
+            data.getDeletedat(),
             String(data.getId()),
         ])
 

@@ -12,7 +12,8 @@ export class Client {
     private readonly email: string
     private readonly dddphone: string
     private readonly phone: string
-    private deleted_at?: Date
+    private updatedat?: Date
+    private deletedat?: Date
 
     constructor({ name, email, dddphone, phone, id }: InterfaceClient) {
         this.name = name
@@ -23,7 +24,11 @@ export class Client {
     }
 
     markAsDeleted(): void {
-        this.deleted_at = new Date()
+        this.deletedat = new Date()
+    }
+
+    recordUpdateDate(): void {
+        this.updatedat = new Date()
     }
 
     getId(): number | undefined {
@@ -48,5 +53,21 @@ export class Client {
 
     getPhone(): string {
         return this.phone
+    }
+
+    getUpdatedat(): string | null {
+        if (this.updatedat !== undefined) {
+            return this.updatedat.toISOString()
+        }
+
+        return null
+    }
+
+    getDeletedat(): string | null {
+        if (this.deletedat !== undefined) {
+            return this.deletedat.toISOString()
+        }
+
+        return null
     }
 }
