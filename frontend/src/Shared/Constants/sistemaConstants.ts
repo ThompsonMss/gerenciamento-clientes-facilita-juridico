@@ -1,6 +1,6 @@
 import { version } from "../../../package.json";
 
 export const sistemaConstants = {
-  nomeDoSistema: "Gerenciamento de Clientes",
+  nomeDoSistema: "Client Management",
   versaoDoSistema: `v${version}`,
 };
