@@ -4,7 +4,7 @@ import { InterfaceRequest } from "./interfaceRequest";
 
 import { InterfaceAPIClientQueryParams } from "@Infrastructure/APIClient/interfaces";
 
-export async function getAll(
+export async function count(
   props: InterfaceRequest
 ): Promise<InterfaceResponse> {
   const queryParams: InterfaceAPIClientQueryParams[] = [];

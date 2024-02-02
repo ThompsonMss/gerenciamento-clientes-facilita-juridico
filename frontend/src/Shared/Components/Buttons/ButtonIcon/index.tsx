@@ -38,7 +38,7 @@ export function ButtonIcon({
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
-        if (!!confirmAction) {
+        if (confirmAction) {
 
             setCallbackConfirm(() => {
                 return () => onClick(event);
@@ -63,10 +63,10 @@ export function ButtonIcon({
                 childrenColor={styleVariant.childrenColor}
                 $loading={!!loading}
                 {...rest}
-                onClick={!!loading ? () => null : handleClick}
+                onClick={loading ? () => null : handleClick}
             >
 
-                {!!loading ? (
+                {loading ? (
                     <Loading />
                 ) : (
                     <>
@@ -85,7 +85,7 @@ export function ButtonIcon({
                 title='Atenção'
                 children={
                     <>
-                        <Typography.BodyLarge>{!!descConfirmAction ? descConfirmAction : 'Deseja realizar essa operação?'}</Typography.BodyLarge>
+                        <Typography.BodyLarge>{descConfirmAction ? descConfirmAction : 'Deseja realizar essa operação?'}</Typography.BodyLarge>
                     </>
                 }
                 full={false}

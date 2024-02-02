@@ -47,9 +47,9 @@ export function getVariant({ disabled, variant,negativeAction }: InterfaceProps)
 
     if (variant === 'secondary') {
 
-        style.backgroundColor = "Ice100"
-        style.backgroundColorHover = "Ice500"
-        style.backgroundColorPressed = "Ice700"
+        style.backgroundColor = "Support500"
+        style.backgroundColorHover = "Support700"
+        style.backgroundColorPressed = "Support700"
         style.childrenColor = "Dark500"
 
         if (disabled) {

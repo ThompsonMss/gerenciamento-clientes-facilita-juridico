@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import { Mask } from "@Shared/Helpers/Mask";
 import { nomeESobrenome } from "@Shared/Helpers/nomeESobrenome";
 import { Buttons } from "@Shared/Components/Buttons";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFilter, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export function ListClients() {
 
@@ -27,7 +27,23 @@ export function ListClients() {
 
   return (
     <>
-      <SectionTitle text="Meus Clientes" />
+      <SectionTitle
+        text="Meus Clientes"
+        children={
+          <>
+            <Buttons.ButtonDefault
+              label="Novo Cliente"
+              iconLeft={faPlus}
+            />
+
+            <Buttons.ButtonIcon
+              icon={faFilter}
+              variant="secondary"
+              mostrarSombra={false}
+            />
+          </>
+        }
+      />
 
       <Table striped bordered hover>
         <thead>
@@ -62,14 +78,18 @@ export function ListClients() {
                           icon={faEdit}
                           format="square"
                           mostrarSombra={false}
+                          size="small"
                         />
 
                         <Buttons.ButtonIcon
+                          size="small"
                           icon={faTrash}
                           negativeAction
                           format="square"
                           mostrarSombra={false}
                           confirmAction
+                          loading={controller.states.loadDeleteClient === client.id}
+                          onClick={() => controller.handles.handleDeleteClient(client.id as string)}
                         />
                       </ContainerActions>
                     </td>
@@ -85,11 +105,12 @@ export function ListClients() {
         <ContainerPaginate>
           <nav aria-label="Page navigation example">
             <ul className="pagination">
-              <li className="page-item"><a className="page-link" href="#">Anterior</a></li>
-              <li className="page-item"><a className="page-link" href="#">1</a></li>
-              <li className="page-item"><a className="page-link" href="#">2</a></li>
-              <li className="page-item"><a className="page-link" href="#">3</a></li>
-              <li className="page-item"><a className="page-link" href="#">Próximo</a></li>
+              {controller.states.pages.map((_, index) => (
+                <li
+                  onClick={() => controller.handles.handlePage(index + 1)}
+                  className={`page-item ${(controller.states.page === index + 1 || (controller.states.page === 0 && index === 0)) ? 'active' : ''}`}>
+                  <a className="page-link">{index + 1}</a></li>
+              ))}
             </ul>
           </nav>
         </ContainerPaginate>
