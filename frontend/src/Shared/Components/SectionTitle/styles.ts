@@ -3,6 +3,7 @@ import { Typography } from "../Typography";
 
 export const Container = styled.div`
   margin-top: 1rem;
+  margin-bottom: 1rem;
   width: 100%;
 
   display: flex;

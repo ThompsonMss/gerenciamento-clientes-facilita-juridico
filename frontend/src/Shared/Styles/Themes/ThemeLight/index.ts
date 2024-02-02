@@ -1,8 +1,8 @@
 export const ThemeLight = {
-  Primary300: "#8DFFDD",
-  Primary500: "#6DE7C3",
-  Primary600: "#4EBD9D",
-  Primary700: "#16AC81",
+  Primary300: "#3498db",
+  Primary500: "#3498db",
+  Primary600: "#3498db",
+  Primary700: "#2980b9",
   Secondary400: "#E1F396",
   Secondary500: "#59BA89",
   Secondary700: "#01575C",
