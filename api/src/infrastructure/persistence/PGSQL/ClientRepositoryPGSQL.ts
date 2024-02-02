@@ -1,6 +1,9 @@
 import { Client } from '../../../domain/client/Client'
 import type { InterfaceClient } from '../../../domain/client/Client'
-import type { ClientRepository } from '../../../domain/client/ClientRepository'
+import type {
+    ClientRepository,
+    InterfaceFindAllClients,
+} from '../../../domain/client/ClientRepository'
 import { BaseConnection } from './BaseConnection'
 
 export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepository {
@@ -63,11 +66,56 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
         return null
     }
 
-    async findAll(): Promise<Client[]> {
-        const sql = `SELECT * FROM clients WHERE deletedat is null`
+    async findAll(filters?: InterfaceFindAllClients[], page?: number): Promise<Client[]> {
+        let sql = `SELECT * FROM clients WHERE deletedat is null`
+
+        if (filters !== undefined && filters?.length > 0) {
+            sql += ` AND (`
+        }
+
+        filters?.forEach((filter, index) => {
+            sql += `${filter.column} ${filter.operator} ${filter.value}`
+
+            if (filters.length !== index + 1) {
+                sql += ` OR `
+            }
+        })
+
+        if (filters !== undefined && filters?.length > 0) {
+            sql += `)`
+        }
+
+        sql += ` ORDER BY id`
+
+        // Tratando a paginação.
+        if (page !== undefined) {
+            sql += ` LIMIT 10 OFFSET ${page <= 1 ? 0 : page}`
+        }
 
         const result: InterfaceClient[] = await this.conn.query(sql)
-
         return result.map((item) => new Client(item))
+    }
+
+    async count(filters?: InterfaceFindAllClients[] | undefined): Promise<number> {
+        let sql = `SELECT COUNT(*) FROM clients WHERE deletedat is null`
+
+        if (filters !== undefined && filters?.length > 0) {
+            sql += ` AND (`
+        }
+
+        filters?.forEach((filter, index) => {
+            sql += `${filter.column} ${filter.operator} ${filter.value}`
+
+            if (filters.length !== index + 1) {
+                sql += ` OR `
+            }
+        })
+
+        if (filters !== undefined && filters?.length > 0) {
+            sql += `)`
+        }
+
+        const [result]: Array<{ count: string }> = await this.conn.query(sql)
+        return parseInt(result.count)
     }
 }

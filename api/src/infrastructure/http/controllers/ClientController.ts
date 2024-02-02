@@ -88,7 +88,10 @@ export class ClientController {
         try {
             const service = new GetClientsService(this.repository)
 
-            const clients = await service.handle()
+            const clients = await service.handle({
+                queryFilters: req.query,
+            })
+
             return res.status(200).json(clients)
         } catch (error) {
             return res
