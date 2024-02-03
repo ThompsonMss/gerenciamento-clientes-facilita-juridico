@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { ClientController } from '../infrastructure/http/controllers/ClientController'
 import { CountClientController } from '../infrastructure/http/controllers/CountClientController'
+import { CalculateRouteController } from '../infrastructure/http/controllers/CalculateRouteController'
 
 export class Routers {
     public router: Router
@@ -12,6 +13,7 @@ export class Routers {
 
     private exec(): void {
         this.routesClient()
+        this.routesCalculateRoute()
     }
 
     private routesClient(): void {
@@ -33,5 +35,12 @@ export class Routers {
             `${baseURL}-count`,
             async (req, res) => await countClientcontroller.index(req, res)
         )
+    }
+
+    private routesCalculateRoute(): void {
+        const baseURL = '/calculate-route'
+        const controller = new CalculateRouteController()
+
+        this.router.get(`${baseURL}`, async (req, res) => await controller.index(req, res))
     }
 }
