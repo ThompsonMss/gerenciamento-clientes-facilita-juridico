@@ -16,14 +16,17 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
     }
 
     async insert(data: Client): Promise<Client> {
-        const sql = `INSERT INTO clients (name, email, dddphone, phone) VALUES
-         ($1, $2, $3, $4) RETURNING *`
+        const sql = `INSERT INTO clients (name, email, dddphone, phone, xcoordinate, ycoordinate) 
+        VALUES
+         ($1, $2, $3, $4, $5, $6) RETURNING *`
 
         const [result]: InterfaceClient[] = await this.conn.query(sql, [
             data.getName(),
             data.getEmail(),
             data.getDddPhone(),
             data.getPhone(),
+            data.getXcoordinate(),
+            data.getYcoordinate(),
         ])
 
         return new Client(result)
@@ -36,9 +39,11 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
           dddphone = $3,
           phone = $4,
           updatedat = $5,
-          deletedat = $6
+          deletedat = $6,
+          xcoordinate = $7,
+          ycoordinate = $8
         WHERE 
-          id = $7
+          id = $9
         RETURNING *`
 
         const [result]: InterfaceClient[] = await this.conn.query(sql, [
@@ -48,6 +53,8 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
             data.getPhone(),
             data.getUpdatedat(),
             data.getDeletedat(),
+            data.getXcoordinate(),
+            data.getYcoordinate(),
             String(data.getId()),
         ])
 

@@ -33,6 +33,8 @@ export class ClientController {
                 name: req.body.name,
                 email: req.body.email,
                 phone: req.body.phone,
+                xcoordinate: req.body.xcoordinate,
+                ycoordinate: req.body.ycoordinate,
             })
 
             return res.status(201).json(client)
@@ -58,6 +60,8 @@ export class ClientController {
                 name: req.body.name,
                 email: req.body.email,
                 phone: req.body.phone,
+                xcoordinate: req.body.xcoordinate,
+                ycoordinate: req.body.ycoordinate,
             })
 
             return res.status(200).json(client)

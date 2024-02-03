@@ -5,6 +5,8 @@ interface InterfaceHandle {
     name: string
     email: string
     phone: string
+    xcoordinate?: number
+    ycoordinate?: number
 }
 export class CreateClientService {
     private readonly repository: ClientRepository

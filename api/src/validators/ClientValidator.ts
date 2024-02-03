@@ -15,6 +15,8 @@ export class ClientValidator {
                 .min(10, 'Insira um telefone válido.')
                 .max(11, 'Insira um telefone válido.')
                 .required('O telefone é obrigatório.'),
+            xcoordinate: yup.number().nullable(),
+            ycoordinate: yup.number().nullable(),
         })
 
         try {
@@ -39,6 +41,8 @@ export class ClientValidator {
                 .min(10, 'Insira um telefone válido.')
                 .max(11, 'Insira um telefone válido.')
                 .required('O telefone é obrigatório.'),
+            xcoordinate: yup.number().nullable(),
+            ycoordinate: yup.number().nullable(),
         })
 
         try {
