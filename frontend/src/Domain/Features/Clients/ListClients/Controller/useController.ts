@@ -7,6 +7,8 @@ import { toast } from "@Shared/Helpers/toast";
 import { useNavigate } from "react-router-dom";
 import { nameOfroutes } from "@Routes/nameOfroutes";
 import { InterfaceFilters } from "@Domain/Services/Clients/GetAll/interfaceRequest";
+import { ServiceRoute } from "@Domain/Services/Route";
+import { InterfaceResponseCalculateRoute } from "@Domain/Services/Route/CalculateRoute/interfaceResponse";
 
 const defaultValuesFilters: InterfaceFilters = {
   name: "",
@@ -138,6 +140,44 @@ export function useController() {
     getData(page, onFilters);
   }, [page, onFilters]);
 
+  /**
+   * CONTROLER PARA CALCULAR ROTA
+   */
+
+  const [loadCalcRoute, setLoadCalcRoute] = React.useState(false);
+  const [showModalRoute, setShowModalRoute] = React.useState(false);
+  const [dataRoute, setDataRoute] =
+    React.useState<InterfaceResponseCalculateRoute>({
+      clients: [],
+      totalDistance: 0,
+    });
+
+  function handleShowModalRoute(value: boolean) {
+    if (value) {
+      setShowModalRoute(true);
+      getDataRoute();
+    } else {
+      setShowModalRoute(false);
+      setDataRoute({
+        clients: [],
+        totalDistance: 0,
+      });
+    }
+  }
+
+  async function getDataRoute() {
+    try {
+      setLoadCalcRoute(true);
+
+      const response = await ServiceRoute.calculateRoute();
+      setDataRoute(response);
+    } catch (e) {
+      catchError(e);
+    } finally {
+      setLoadCalcRoute(false);
+    }
+  }
+
   return {
     states: {
       load,
@@ -149,6 +189,9 @@ export function useController() {
       filters,
       showModalFilters,
       hasFilters,
+      loadCalcRoute,
+      showModalRoute,
+      dataRoute,
     },
     handles: {
       handleDeleteClient,
@@ -159,6 +202,7 @@ export function useController() {
       handleFilters,
       handleDoFilter,
       handleShowModalFilters,
+      handleShowModalRoute,
     },
   };
 }

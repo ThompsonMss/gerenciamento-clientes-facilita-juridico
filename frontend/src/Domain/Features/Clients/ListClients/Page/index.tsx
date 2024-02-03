@@ -1,14 +1,13 @@
 import { SectionTitle } from "@Shared/Components/SectionTitle";
 import { useController } from "../Controller/useController";
 import { LoadComponent } from "@Shared/Components/Load";
-import { ContainerActions, ContainerLoad, ContainerPaginate, TextEmpty, TextLoad } from "./styles";
+import { CardClient, ContainerActions, ContainerLoad, ContainerPaginate, ContainerRoutes, TextEmpty, TextLoad, TextTotalDistance } from "./styles";
 
 import Table from 'react-bootstrap/Table';
 import { Mask } from "@Shared/Helpers/Mask";
-import { nomeESobrenome } from "@Shared/Helpers/nomeESobrenome";
 import { Buttons } from "@Shared/Components/Buttons";
-import { faEdit, faFilter, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal } from 'react-bootstrap';
+import { faEdit, faFilter, faPlus, faRoute, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from 'react-bootstrap';
 import { Forms } from "@Shared/Components/Forms";
 import { Col } from "react-bootstrap";
 
@@ -40,6 +39,13 @@ export function ListClients() {
               onClick={() => controller.handles.handleRegisterClient()}
             />
 
+            <Buttons.ButtonDefault
+              label="Rota"
+              iconLeft={faRoute}
+              onClick={() => controller.handles.handleShowModalRoute(true)}
+              variant="secondary"
+            />
+
             <Buttons.ButtonIcon
               icon={faFilter}
               variant="secondary"
@@ -50,7 +56,7 @@ export function ListClients() {
         }
       />
 
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Nome</th>
@@ -60,7 +66,6 @@ export function ListClients() {
           </tr>
         </thead>
         <tbody>
-
           {controller.states.data.length === 0 ? (
             <tr>
               <td colSpan={4}><TextEmpty>Nenhum cliente encontrado</TextEmpty></td>
@@ -68,12 +73,11 @@ export function ListClients() {
           ) : (
             <>
               {controller.states.data.map((client) => {
-
                 const dataPhone = `${client.dddphone}${client.phone}`;
                 const phoneMask = dataPhone.length <= 10 ? Mask.telefone.setMask(dataPhone) : Mask.celular.setMask(dataPhone)
 
                 return (
-                  <tr style={{ verticalAlign: 'middle' }}>
+                  <tr style={{ verticalAlign: 'middle' }} key={client.id}>
                     <td>{client.name}</td>
                     <td>{client.email}</td>
                     <td>{phoneMask}</td>
@@ -106,6 +110,7 @@ export function ListClients() {
           )}
         </tbody>
       </Table>
+
 
       {controller.states.data.length !== 0 && (
         <ContainerPaginate>
@@ -194,6 +199,70 @@ export function ListClients() {
           <Buttons.ButtonDefault
             label="Filtrar"
             onClick={() => controller.handles.handleDoFilter()}
+          />
+
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={controller.states.showModalRoute} onHide={() => controller.handles.handleShowModalRoute(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Ordem de Visitação</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          {controller.states.loadCalcRoute ? (
+            <ContainerLoad style={{ height: '6.25rem' }}>
+              <LoadComponent />
+              <TextLoad>Calculando a rota...</TextLoad>
+            </ContainerLoad>
+          ) : (
+            <ContainerRoutes>
+
+              {controller.states.dataRoute.clients.map((item, index) => (
+                <CardClient key={item.client.id}>
+                  <div id="position">
+                    <h5>{index + 1}º</h5>
+                  </div>
+                  <div id="wrapper">
+                    <div id="section">
+                      <p>Nome:</p>
+                      <h6>{item.client.name}</h6>
+                    </div>
+                    <div id="section">
+                      <p>E-mail:</p>
+                      <h6>{item.client.email}</h6>
+                    </div>
+                    <div id="section">
+                      <p>Telefone:</p>
+                      <h6>{Mask.telefone.setMask(`${item.client.dddphone}${item.client.phone}`)}</h6>
+                    </div>
+
+                    <div id="row-route">
+                      <div id="section">
+                        <p>Coordenadas:</p>
+                        <h6>(X: {item.client.xcoordinate}, Y: {item.client.ycoordinate})</h6>
+                      </div>
+                      <div id="section">
+                        <p>{index === 0 ? 'Distância da empresa para o Cliente:' : 'Distância até Cliente Anterior:'}</p>
+                        <h6>{item.distance}</h6>
+                      </div>
+                    </div>
+
+                  </div>
+                </CardClient>
+              ))}
+
+              <TextTotalDistance>Distância Total: {controller.states.dataRoute.totalDistance}</TextTotalDistance>
+            </ContainerRoutes>
+          )}
+
+        </Modal.Body>
+        <Modal.Footer>
+
+          <Buttons.ButtonDefault
+            label="Fechar"
+            variant="tertiary"
+            onClick={() => controller.handles.handleShowModalRoute(false)}
           />
 
         </Modal.Footer>

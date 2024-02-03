@@ -6,6 +6,16 @@ interface InterfaceCoordinate {
     y: any
 }
 
+interface InterfaceClientWithCaclRoute {
+    client: Client
+    distance: number
+}
+
+interface InterfaceCalculateRouteServiceResponse {
+    clients: InterfaceClientWithCaclRoute[]
+    totalDistance: number
+}
+
 export class CalculateRouteService {
     private readonly repository: ClientRepository
     private readonly companyCoordinates: Client
@@ -26,7 +36,7 @@ export class CalculateRouteService {
         })
     }
 
-    async handle(): Promise<Client[]> {
+    async handle(): Promise<InterfaceCalculateRouteServiceResponse> {
         // Recuperando todos os clientes ativos e que possui coordenadas.
         this.clients = await this.repository.findAll([
             {
@@ -51,11 +61,21 @@ export class CalculateRouteService {
          */
 
         // Implementando a heurística do vizinho mais próximo
-        let route: Client[] = []
+        let route: InterfaceClientWithCaclRoute[] = []
 
         // O ponto de partida é a empresa.
         route = this.findNearestNeighbor(route, this.companyCoordinates)
-        return route
+
+        let totalDistance = 0
+
+        route.forEach((item) => {
+            totalDistance += item.distance
+        })
+
+        return {
+            clients: route,
+            totalDistance: parseFloat(totalDistance.toFixed(4)),
+        }
     }
 
     // Função que calcula a distância entre dois pontos
@@ -67,7 +87,10 @@ export class CalculateRouteService {
     }
 
     // Função que aplica a lógica de caçar o vizinho mais próximo.
-    private findNearestNeighbor(route: Client[], currentNeighbor: Client): Client[] {
+    private findNearestNeighbor(
+        route: InterfaceClientWithCaclRoute[],
+        currentNeighbor: Client
+    ): InterfaceClientWithCaclRoute[] {
         let nearestNeighbor: Client | null = null
         let shortestDistanceFound: number | null = null
 
@@ -101,7 +124,10 @@ export class CalculateRouteService {
 
         if (nearestNeighbor !== null) {
             // Colocando na rota o viznho com menor disntancia pro atual.
-            route.push(nearestNeighbor)
+            route.push({
+                client: nearestNeighbor,
+                distance: parseFloat(parseFloat(`${shortestDistanceFound}`).toFixed(4)) as any,
+            })
 
             // Removendo o vizinho dos demais
             this.clients = this.clients.filter(
