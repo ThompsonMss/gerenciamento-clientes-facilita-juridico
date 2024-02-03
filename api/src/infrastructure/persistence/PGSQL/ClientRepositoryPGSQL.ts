@@ -89,7 +89,7 @@ export class ClientRepositoryPGSQL extends BaseConnection implements ClientRepos
 
         // Tratando a paginação.
         if (page !== undefined) {
-            sql += ` LIMIT 10 OFFSET ${page <= 1 ? 0 : page}`
+            sql += ` LIMIT 20 OFFSET ${page <= 1 ? 0 : (page - 1) * 20}`
         }
 
         const result: InterfaceClient[] = await this.conn.query(sql)

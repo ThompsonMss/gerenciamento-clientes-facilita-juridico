@@ -35,7 +35,7 @@ export function useController() {
     return has;
   }, [onFilters]);
 
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [totalClient, setTotalClient] = React.useState(0);
 
   const [load, setLoad] = React.useState(true);
@@ -71,7 +71,7 @@ export function useController() {
     setShowModalFilters(false);
   }
 
-  async function getData(numberPage = 0, filters?: InterfaceFilters) {
+  async function getData(numberPage = 1, filters?: InterfaceFilters) {
     try {
       setLoad(true);
 
@@ -91,6 +91,7 @@ export function useController() {
         });
 
         params.filters = filtersValid;
+        params.page = 1;
       }
 
       const [clients, dataCount] = await Promise.all([

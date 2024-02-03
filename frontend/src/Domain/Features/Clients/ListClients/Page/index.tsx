@@ -74,7 +74,7 @@ export function ListClients() {
 
                 return (
                   <tr style={{ verticalAlign: 'middle' }}>
-                    <td>{nomeESobrenome(client.name)}</td>
+                    <td>{client.name}</td>
                     <td>{client.email}</td>
                     <td>{phoneMask}</td>
                     <td>
@@ -113,6 +113,7 @@ export function ListClients() {
             <ul className="pagination">
               {controller.states.pages.map((_, index) => (
                 <li
+                  style={{ cursor: 'pointer' }}
                   onClick={() => controller.handles.handlePage(index + 1)}
                   className={`page-item ${(controller.states.page === index + 1 || (controller.states.page === 0 && index === 0)) ? 'active' : ''}`}>
                   <a className="page-link">{index + 1}</a></li>

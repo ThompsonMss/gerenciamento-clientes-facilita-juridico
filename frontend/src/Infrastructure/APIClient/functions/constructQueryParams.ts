@@ -11,7 +11,7 @@ export function constructQueryParams(
         let stringQueryParams = `${!contem ? "?" : ""}`;
 
         queryParams.map((item) => {
-          stringQueryParams += `${item.key}=${item.value}&`;
+          stringQueryParams += `${item.key}=${encodeURIComponent(item.value)}&`;
         });
 
         return (endpoint += stringQueryParams);
