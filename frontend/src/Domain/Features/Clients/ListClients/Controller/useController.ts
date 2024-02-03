@@ -4,8 +4,12 @@ import { ClientModel } from "@Domain/Models/ClientModel";
 import { ServiceClient } from "@Domain/Services/Clients";
 import { catchError } from "@Shared/Helpers/catchError";
 import { toast } from "@Shared/Helpers/toast";
+import { useNavigate } from "react-router-dom";
+import { nameOfroutes } from "@Routes/nameOfroutes";
 
 export function useController() {
+  const navigate = useNavigate();
+
   const [page, setPage] = React.useState(0);
   const [totalClient, setTotalClient] = React.useState(0);
 
@@ -14,6 +18,10 @@ export function useController() {
 
   const numberOfPages = Math.ceil((totalClient <= 0 ? 1 : totalClient) / 20);
   const pages = new Array(numberOfPages).fill(0);
+
+  function handleRegisterClient() {
+    navigate(nameOfroutes.clientsRegister);
+  }
 
   function handlePage(page: number) {
     setPage(page);
@@ -81,6 +89,7 @@ export function useController() {
     handles: {
       handleDeleteClient,
       handlePage,
+      handleRegisterClient
     },
   };
 }

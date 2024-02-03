@@ -34,6 +34,7 @@ export function ListClients() {
             <Buttons.ButtonDefault
               label="Novo Cliente"
               iconLeft={faPlus}
+              onClick={() => controller.handles.handleRegisterClient()}
             />
 
             <Buttons.ButtonIcon

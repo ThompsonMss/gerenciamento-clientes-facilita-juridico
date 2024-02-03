@@ -4,7 +4,6 @@ import * as Styles from './styles'
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { InterfaceInputDefault } from './interfaces'
 import { useTheme } from 'styled-components'
-import { Help } from '@Shared/Components/Help'
 
 function Input({
     temErro = false,
@@ -23,7 +22,6 @@ function Input({
     type,
     contadorChar = undefined,
     value = "",
-    textHelp = '',
     onClickButtonIconRight = undefined,
     ...rest
 }: InterfaceInputDefault, ref?: any) {
@@ -32,7 +30,7 @@ function Input({
 
     const idInput = React.useMemo(() => {
         return Math.random() * 99999999 + new Date().getTime() + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }, []);
@@ -44,7 +42,7 @@ function Input({
     function onClickIconButton(event: React.MouseEvent<HTMLDivElement>) {
         event.stopPropagation();
 
-        if (!!disabledButtonIcon) return
+        if (disabledButtonIcon) return
         if (onClickButtonIconRight === undefined) return;
 
         onClickButtonIconRight();
@@ -60,11 +58,7 @@ function Input({
         <Styles.Container style={stylesContainer} onClick={requestInput}>
             {!!label && (
                 <div style={{ marginBottom: '0.25rem', display: 'flex', alignItems: 'center' }}>
-                    <Styles.Label>{label}:{!!inputOpcional ? <Styles.TextpOpcional> (opcional)</Styles.TextpOpcional> : ''}</Styles.Label>
-
-                    {!!textHelp && (
-                        <Help desc={textHelp} placement='auto' style={{marginLeft: '.25rem'}} />
-                    )}
+                    <Styles.Label>{label}:{inputOpcional ? <Styles.TextpOpcional> (opcional)</Styles.TextpOpcional> : ''}</Styles.Label>
                 </div>
             )}
             <Styles.InputWrapper disabled={!!disabled} temErro={temErro}>

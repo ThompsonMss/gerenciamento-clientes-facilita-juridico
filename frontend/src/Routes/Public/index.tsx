@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { nameOfroutes } from "@Routes/nameOfroutes";
 import { Common } from "@Shared/Layouts/Common";
 import { ListClients } from "@Domain/Features/Clients/ListClients/Page";
+import { RegisterAndUpdateClient } from "@Domain/Features/Clients/RegisterAndUpdateClient/Page";
 
 export function RoutesPublic() {
 
@@ -12,6 +13,12 @@ export function RoutesPublic() {
             <Route
                 element={<Common><ListClients /></Common>}
                 path={nameOfroutes.clients}
+                index
+            />
+
+            <Route
+                element={<Common><RegisterAndUpdateClient /></Common>}
+                path={nameOfroutes.clientsRegister}
                 index
             />
 
