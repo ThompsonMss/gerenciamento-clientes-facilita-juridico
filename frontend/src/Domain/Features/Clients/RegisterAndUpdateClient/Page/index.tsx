@@ -6,7 +6,7 @@ import { useController } from '../Controller/useController'
 import { Buttons } from '@Shared/Components/Buttons';
 import { Forms } from '@Shared/Components/Forms';
 import { Col } from 'react-bootstrap';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { SectionTitle } from '@Shared/Components/SectionTitle';
 
 export function RegisterAndUpdateClient() {
@@ -77,15 +77,24 @@ export function RegisterAndUpdateClient() {
             <Forms.GapRow />
 
             <Forms.FormRow style={{ justifyContent: 'flex-end' }}>
-              <Col md={4} className='d-flex justify-content-end'>
-                <Buttons.ButtonDefault
-                  label='Salvar'
-                  iconLeft={faCheck}
-                  isMobile
-                  onClick={controller.handlers.handleSubmit}
-                  loading={controller.states.loadSubmit}
-                />
-              </Col>
+              <>
+                <Col md={4} className='d-flex justify-content-end gap-2'>
+                  <Buttons.ButtonDefault
+                    label='Voltar'
+                    iconLeft={faArrowLeft}
+                    isMobile
+                    onClick={controller.handlers.handleGoBack}
+                    variant='tertiary'
+                  />
+                  <Buttons.ButtonDefault
+                    label='Salvar'
+                    iconLeft={faCheck}
+                    isMobile
+                    onClick={controller.handlers.handleSubmit}
+                    loading={controller.states.loadSubmit}
+                  />
+                </Col>
+              </>
             </Forms.FormRow>
           </>
         </Forms.FormContainer>

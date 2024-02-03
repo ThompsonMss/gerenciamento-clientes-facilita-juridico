@@ -101,7 +101,10 @@ export function useController() {
     if (dataEdit) {
       setValue("name", dataEdit.name);
       setValue("email", dataEdit.email);
-      setValue("phone", Mask.telefone.setMask(`${dataEdit.dddphone}${dataEdit.phone}`));
+      setValue(
+        "phone",
+        Mask.telefone.setMask(`${dataEdit.dddphone}${dataEdit.phone}`)
+      );
     }
   }
 
@@ -110,6 +113,10 @@ export function useController() {
       populateForm();
     }
   }, [dataEdit]);
+
+  function handleGoBack() {
+    navigate(nameOfroutes.clients);
+  }
 
   return {
     states: {
@@ -120,6 +127,7 @@ export function useController() {
 
     handlers: {
       handleSubmit: handleSubmit(onSubmit),
+      handleGoBack,
     },
     refs: {},
   };
