@@ -6,9 +6,34 @@ import { catchError } from "@Shared/Helpers/catchError";
 import { toast } from "@Shared/Helpers/toast";
 import { useNavigate } from "react-router-dom";
 import { nameOfroutes } from "@Routes/nameOfroutes";
+import { InterfaceFilters } from "@Domain/Services/Clients/GetAll/interfaceRequest";
+
+const defaultValuesFilters: InterfaceFilters = {
+  name: "",
+  email: "",
+  phone: "",
+};
 
 export function useController() {
   const navigate = useNavigate();
+
+  const [onFilters, setOnFilters] =
+    React.useState<InterfaceFilters>(defaultValuesFilters);
+  const [filters, setFilters] =
+    React.useState<InterfaceFilters>(defaultValuesFilters);
+  const [showModalFilters, setShowModalFilters] = React.useState(false);
+
+  const hasFilters = React.useMemo(() => {
+    let has = false;
+
+    Object.values(onFilters).map((value) => {
+      if (value !== null && value !== undefined && value !== "") {
+        has = true;
+      }
+    });
+
+    return has;
+  }, [onFilters]);
 
   const [page, setPage] = React.useState(0);
   const [totalClient, setTotalClient] = React.useState(0);
@@ -31,13 +56,46 @@ export function useController() {
     setPage(page);
   }
 
-  async function getData(numberPage = 0) {
+  function handleFilters(key: keyof InterfaceFilters, value: any) {
+    setFilters((prevState) => ({ ...prevState, [key]: value }));
+  }
+
+  function handleDoFilter() {
+    setOnFilters(filters);
+    setShowModalFilters(false);
+  }
+
+  function handleClearFilters() {
+    setFilters(defaultValuesFilters);
+    setOnFilters(defaultValuesFilters);
+    setShowModalFilters(false);
+  }
+
+  async function getData(numberPage = 0, filters?: InterfaceFilters) {
     try {
       setLoad(true);
 
+      const params: { page: number; filters?: InterfaceFilters } = {
+        page: numberPage,
+      };
+
+      if (filters) {
+        const filtersValid: any = {};
+
+        Object.entries(filters).map((filter) => {
+          const [key, value] = filter;
+
+          if (!!key && value !== null && value !== undefined && value !== "") {
+            filtersValid[key] = value;
+          }
+        });
+
+        params.filters = filtersValid;
+      }
+
       const [clients, dataCount] = await Promise.all([
-        ServiceClient.getAll({ page: numberPage }),
-        ServiceClient.count({ page: numberPage }),
+        ServiceClient.getAll(params),
+        ServiceClient.count(params),
       ]);
 
       setData(clients);
@@ -71,15 +129,13 @@ export function useController() {
     }
   }
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+  function handleShowModalFilters(value: boolean) {
+    setShowModalFilters(value);
+  }
 
   React.useEffect(() => {
-    if (page !== 0) {
-      getData(page);
-    }
-  }, [page]);
+    getData(page, onFilters);
+  }, [page, onFilters]);
 
   return {
     states: {
@@ -89,12 +145,19 @@ export function useController() {
       page,
       totalClient,
       pages,
+      filters,
+      showModalFilters,
+      hasFilters,
     },
     handles: {
       handleDeleteClient,
       handlePage,
       handleRegisterClient,
-      handleUpdateClient
+      handleUpdateClient,
+      handleClearFilters,
+      handleFilters,
+      handleDoFilter,
+      handleShowModalFilters,
     },
   };
 }

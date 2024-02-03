@@ -8,6 +8,9 @@ import { Mask } from "@Shared/Helpers/Mask";
 import { nomeESobrenome } from "@Shared/Helpers/nomeESobrenome";
 import { Buttons } from "@Shared/Components/Buttons";
 import { faEdit, faFilter, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button, Modal } from 'react-bootstrap';
+import { Forms } from "@Shared/Components/Forms";
+import { Col } from "react-bootstrap";
 
 export function ListClients() {
 
@@ -41,6 +44,7 @@ export function ListClients() {
               icon={faFilter}
               variant="secondary"
               mostrarSombra={false}
+              onClick={() => controller.handles.handleShowModalFilters(true)}
             />
           </>
         }
@@ -117,6 +121,82 @@ export function ListClients() {
           </nav>
         </ContainerPaginate>
       )}
+
+      <Modal show={controller.states.showModalFilters} onHide={() => controller.handles.handleShowModalFilters(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Filtros</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <Forms.FormContainer noPaddingAndBackground>
+              <>
+                <Forms.FormRow>
+                  <>
+                    <Col md={12}>
+                      <Forms.InputDefault
+                        label='Nome'
+                        placeholder='Ex.: Fulano de Tal'
+                        value={controller.states.filters.name as any}
+                        onChange={(e: any) => {
+                          controller.handles.handleFilters('name', e.target.value)
+                        }}
+                      />
+                    </Col>
+                  </>
+
+                </Forms.FormRow>
+
+                <Forms.GapRow />
+
+                <Forms.FormRow>
+                  <>
+                    <Col md={6}>
+                      <Forms.InputDefault
+                        label='E-mail'
+                        placeholder='Ex.: fulano@gmail.com'
+                        value={controller.states.filters.email as any}
+                        onChange={(e: any) => {
+                          controller.handles.handleFilters('email', e.target.value)
+                        }}
+                      />
+                    </Col>
+
+                    <Forms.Gap />
+
+                    <Col md={6}>
+                      <Forms.InputDefault
+                        label='Telefone'
+                        placeholder='Ex.: (61) 3333-7777'
+                        value={controller.states.filters.phone as any}
+                        onChange={(e: any) => {
+                          controller.handles.handleFilters('phone', e.target.value)
+                        }}
+                      />
+                    </Col>
+                  </>
+                </Forms.FormRow>
+
+                <Forms.GapRow />
+
+              </>
+            </Forms.FormContainer>
+          </>
+        </Modal.Body>
+        <Modal.Footer>
+
+          <Buttons.ButtonDefault
+            label="Limpar"
+            variant="tertiary"
+            onClick={() => controller.handles.handleClearFilters()}
+          />
+
+          <Buttons.ButtonDefault
+            label="Filtrar"
+            onClick={() => controller.handles.handleDoFilter()}
+          />
+
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

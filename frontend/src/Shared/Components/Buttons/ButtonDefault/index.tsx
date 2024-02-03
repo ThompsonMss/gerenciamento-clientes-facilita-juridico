@@ -3,8 +3,9 @@ import * as Style from './styles'
 import { InterfaceButtonDefault } from "./interfaces";
 
 import { getVariant } from './getVariant';
-import { Modals } from '@Shared/Components/Modals';
+import { Modal } from 'react-bootstrap';
 import { Typography } from '@Shared/Components/Typography';
+import { Buttons } from '..';
 
 export function ButtonDefault({
     variant = "primary",
@@ -39,7 +40,7 @@ export function ButtonDefault({
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
-        if (!!confirmAction) {
+        if (confirmAction) {
 
             setCallbackConfirm(() => {
                 return () => onClick(event);
@@ -68,10 +69,10 @@ export function ButtonDefault({
                 isMobile={isMobile}
                 isLink={variant === 'link'}
                 {...rest}
-                onClick={!!loading ? () => null : handleClick}
+                onClick={loading ? () => null : handleClick}
             >
 
-                {!!loading ? (
+                {loading ? (
                     <Loading />
                 ) : (
                     <>
@@ -85,41 +86,48 @@ export function ButtonDefault({
 
             </Style.Button>
 
-            <Modals.Default
-                show={showConfirm}
-                onHide={() => {
+            <Modal show={showConfirm} onHide={
+                () => {
                     setShowConfirm(false);
                     setCallbackConfirm(() => null);
-                }}
-                title='Atenção'
-                children={
-                    <>
-                        <Typography.BodyLarge>{!!descConfirmAction ? descConfirmAction : 'Deseja realizar essa operação?'}</Typography.BodyLarge>
-                    </>
                 }
-                full={false}
-                actions={{
-                    buttonCancelar: {
-                        label: 'Cancelar', onClick: () => {
-                            setShowConfirm(false);
-                            setCallbackConfirm(() => {
-                                return () => null;
-                            });
-                        }
-                    },
-                    buttonOk: {
-                        label: 'Confirmar',
-                        onClick: () => {
-                            setShowConfirm(false);
-                            callbackConfirm();
-                            setCallbackConfirm(() => {
-                                return () => null;
-                            });
-                        }
-                    }
-                }}
-            />
+            } centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Atenção</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <>
+                        <Typography.BodyLarge>{descConfirmAction ? descConfirmAction : 'Deseja realizar essa operação?'}</Typography.BodyLarge>
+                    </>
+                </Modal.Body>
+                <Modal.Footer>
 
+                    <Buttons.ButtonDefault
+                        label="Cancelar"
+                        variant="tertiary"
+                        onClick={
+                            () => {
+                                setShowConfirm(false);
+                                setCallbackConfirm(() => null);
+                            }
+                        }
+                    />
+
+                    <Buttons.ButtonDefault
+                        label="Confirmar"
+                        onClick={
+                            () => {
+                                setShowConfirm(false);
+                                callbackConfirm();
+                                setCallbackConfirm(() => {
+                                    return () => null;
+                                });
+                            }
+                        }
+                    />
+
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
