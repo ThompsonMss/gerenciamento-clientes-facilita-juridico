@@ -40,7 +40,12 @@ export class ClientRepositoryPGSQL implements ClientRepository {
         return this.clients.length
     }
 
-    findAll = jest.fn()
+    async findAll(
+        filters?: InterfaceFindAllClients[] | undefined,
+        page?: number | undefined
+    ): Promise<Client[]> {
+        return this.clients
+    }
 
     async findById(id: number): Promise<Client | null> {
         const client = this.clients.find((item) => item.getId() === id)

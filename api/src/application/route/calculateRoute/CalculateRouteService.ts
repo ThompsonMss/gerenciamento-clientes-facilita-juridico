@@ -26,7 +26,7 @@ export class CalculateRouteService {
         })
     }
 
-    async handle(): Promise<any> {
+    async handle(): Promise<Client[]> {
         // Recuperando todos os clientes ativos e que possui coordenadas.
         this.clients = await this.repository.findAll([
             {
