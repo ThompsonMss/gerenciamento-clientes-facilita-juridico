@@ -22,6 +22,12 @@ export function RoutesPublic() {
                 index
             />
 
+            <Route
+                element={<Common><RegisterAndUpdateClient /></Common>}
+                path={nameOfroutes.clientsUpdate}
+                index
+            />
+
             {/* FALLBACK */}
             <Route
                 element={<Navigate to={nameOfroutes.clients} />}

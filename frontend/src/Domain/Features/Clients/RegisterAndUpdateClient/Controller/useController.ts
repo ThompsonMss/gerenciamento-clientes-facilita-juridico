@@ -11,7 +11,7 @@ import { InterfaceFormInput } from "../Interfaces/InterfaceFormInput";
 import { toast } from "@Shared/Helpers/toast";
 import { Mask } from "@Shared/Helpers/Mask";
 import { ServiceClient } from "@Domain/Services/Clients";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { nameOfroutes } from "@Routes/nameOfroutes";
 
 const initDefaultValues = {
@@ -22,6 +22,13 @@ const initDefaultValues = {
 
 export function useController() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const dataEdit = location.state
+    ? location.state?.client
+      ? location.state?.client
+      : false
+    : false;
 
   /**
    * CONTROLER PARA VALIDAR FORM E SUBMIT
@@ -45,7 +52,7 @@ export function useController() {
     control,
     formState: { errors },
     handleSubmit,
-    // setValue,
+    setValue,
   } = useForm<InterfaceFormInput>({
     resolver: yupResolver(schema),
     defaultValues: initDefaultValues,
@@ -57,13 +64,27 @@ export function useController() {
     try {
       setLoadSubmit(true);
 
-      await ServiceClient.register({
-        name: dataSubmit.name,
-        email: dataSubmit.email,
-        phone: Mask.telefone.removeMask(dataSubmit.phone),
-      });
+      if (dataEdit) {
+        await ServiceClient.update({
+          id: dataEdit.id,
+          data: {
+            name: dataSubmit.name,
+            email: dataSubmit.email,
+            phone: Mask.telefone.removeMask(dataSubmit.phone),
+          },
+        });
 
-      toast.sucesso("Cliente cadastrado com sucesso.");
+        toast.sucesso("Cliente atualizado com sucesso.");
+      } else {
+        await ServiceClient.register({
+          name: dataSubmit.name,
+          email: dataSubmit.email,
+          phone: Mask.telefone.removeMask(dataSubmit.phone),
+        });
+
+        toast.sucesso("Cliente cadastrado com sucesso.");
+      }
+
       navigate(nameOfroutes.clients);
     } catch (e) {
       catchError(e);
@@ -77,22 +98,18 @@ export function useController() {
    */
 
   function populateForm() {
-    /**
-     * if (data !== null) {
-      setValue("tempo_medio", data.tempo_medio);
-      setValue(
-        "pedido_minimo",
-        !!data.pedido_minimo ? Mask.dinheiro.setMask(data.pedido_minimo) : ""
-      );
+    if (dataEdit) {
+      setValue("name", dataEdit.name);
+      setValue("email", dataEdit.email);
+      setValue("phone", Mask.telefone.setMask(`${dataEdit.dddphone}${dataEdit.phone}`));
     }
-     */
   }
 
-  /**
- *   React.useEffect(() => {
-    populateForm();
-  }, [data]);
- */
+  React.useEffect(() => {
+    if (dataEdit) {
+      populateForm();
+    }
+  }, [dataEdit]);
 
   return {
     states: {

@@ -80,6 +80,7 @@ export function ListClients() {
                           format="square"
                           mostrarSombra={false}
                           size="small"
+                          onClick={() => controller.handles.handleUpdateClient(client)}
                         />
 
                         <Buttons.ButtonIcon

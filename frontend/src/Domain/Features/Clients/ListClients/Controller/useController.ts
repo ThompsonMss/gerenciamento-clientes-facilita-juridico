@@ -23,6 +23,10 @@ export function useController() {
     navigate(nameOfroutes.clientsRegister);
   }
 
+  function handleUpdateClient(client: ClientModel) {
+    navigate(nameOfroutes.clientsUpdate, { state: { client } });
+  }
+
   function handlePage(page: number) {
     setPage(page);
   }
@@ -89,7 +93,8 @@ export function useController() {
     handles: {
       handleDeleteClient,
       handlePage,
-      handleRegisterClient
+      handleRegisterClient,
+      handleUpdateClient
     },
   };
 }
