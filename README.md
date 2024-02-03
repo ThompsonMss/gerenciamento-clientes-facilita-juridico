@@ -13,6 +13,10 @@ Optei por desenvolver a API sem o uso de frameworks (Ex.: AdonisJS/NestJS). Da m
 
 ---
 
+## Visualização
+
+![Captura de tela 2024-02-03 160909](https://github.com/ThompsonMss/microservice-html-to-pdf-with-sqs/assets/30129295/97d70dd3-b9b7-456d-ae39-ec40cf22a47b)
+
 ## Instalação
 
 <br />
