@@ -18,6 +18,8 @@ const initDefaultValues = {
   name: "",
   email: "",
   phone: "",
+  xcoordinate: "",
+  ycoordinate: "",
 };
 
 export function useController() {
@@ -45,6 +47,14 @@ export function useController() {
         .string()
         .min(14, "Insira telefone válido.")
         .required("Ops! O telefone é obrigatório."),
+      xcoordinate: yup
+        .number()
+        .integer("A coordenada deve ser um número inteiro.")
+        .nullable(),
+      ycoordinate: yup
+        .number()
+        .integer("A coordenada deve ser um número inteiro.")
+        .nullable(),
     })
     .required();
 
@@ -71,6 +81,12 @@ export function useController() {
             name: dataSubmit.name,
             email: dataSubmit.email,
             phone: Mask.telefone.removeMask(dataSubmit.phone),
+            xcoordinate: dataSubmit.xcoordinate
+              ? parseInt(dataSubmit.xcoordinate)
+              : undefined,
+            ycoordinate: dataSubmit.ycoordinate
+              ? parseInt(dataSubmit.ycoordinate)
+              : undefined,
           },
         });
 
@@ -80,6 +96,12 @@ export function useController() {
           name: dataSubmit.name,
           email: dataSubmit.email,
           phone: Mask.telefone.removeMask(dataSubmit.phone),
+          xcoordinate: dataSubmit.xcoordinate
+            ? parseInt(dataSubmit.xcoordinate)
+            : undefined,
+          ycoordinate: dataSubmit.ycoordinate
+            ? parseInt(dataSubmit.ycoordinate)
+            : undefined,
         });
 
         toast.sucesso("Cliente cadastrado com sucesso.");
@@ -105,6 +127,9 @@ export function useController() {
         "phone",
         Mask.telefone.setMask(`${dataEdit.dddphone}${dataEdit.phone}`)
       );
+
+      setValue("xcoordinate", dataEdit.xcoordinate ? dataEdit.xcoordinate : "");
+      setValue("ycoordinate", dataEdit.ycoordinate ? dataEdit.ycoordinate : "");
     }
   }
 

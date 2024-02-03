@@ -76,6 +76,40 @@ export function RegisterAndUpdateClient() {
 
             <Forms.GapRow />
 
+            <Forms.FormTitleSection title='Coordenadas' />
+
+            <Forms.FormRow>
+              <>
+                <Col md={6}>
+                  <Forms.ControlledInputDefault
+                    control={controller.states.control}
+                    name='xcoordinate'
+                    label='Eixo X'
+                    desc='Insira a coordenada do Eixo X'
+                    placeholder='Ex.: -1'
+                    errors={controller.states.errors}
+                    inputOpcional
+                  />
+                </Col>
+
+                <Forms.Gap />
+
+                <Col md={6}>
+                  <Forms.ControlledInputDefault
+                    control={controller.states.control}
+                    name='ycoordinate'
+                    label='Eixo Y'
+                    desc='Insira a coordenada do Eixo X'
+                    placeholder='Ex.: 2'
+                    errors={controller.states.errors}
+                    inputOpcional
+                  />
+                </Col>
+              </>
+            </Forms.FormRow>
+
+            <Forms.GapRow />
+
             <Forms.FormRow style={{ justifyContent: 'flex-end' }}>
               <>
                 <Col md={4} className='d-flex justify-content-end gap-2'>

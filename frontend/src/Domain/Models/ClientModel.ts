@@ -7,4 +7,6 @@ export interface ClientModel {
   createdat?: string;
   updatedat?: string;
   deletedat?: string;
+  xcoordinate?: number;
+  ycoordinate?: number;
 }
