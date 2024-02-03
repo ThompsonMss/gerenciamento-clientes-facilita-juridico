@@ -21,14 +21,14 @@ Optei por desenvolver a API sem o uso de frameworks (Ex.: AdonisJS/NestJS). Da m
 
 Siga os comandos abaixo para executar essa aplicação em sua máquina.
 
-> **Atenção!** É necessário que o seu ambiente de desenvolvimento esteja configurado para trabalhar docker e docker-compose. Caso não tenha os mesmos configurados, você precisará instalar esse projeto manualmente. [Veja os requisitos da aplicação aqui!](#requisitos-da-aplicação)
+> **Atenção!** É necessário que o seu ambiente de desenvolvimento esteja configurado para trabalhar docker e docker-compose. Caso não tenha os mesmos configurados, você precisará instalar esse projeto manualmente. [Veja o Uso Manualmente aqui!](#uso-manualmente)
 
 #
 
 ```bash
 # Clonando o repositório da aplicação.
 
-git clone https://github.com/ThompsonMss/gerenciamento-clientes-facilita-juridico
+git clone https://github.com/ThompsonMss/gerenciamento-clientes-facilita-juridico.git
 ```
 
 ```bash
@@ -67,7 +67,7 @@ A estrutura do sistema tem alguns requisitos, são eles:
 ```bash
 # Clonando o repositório da aplicação.
 
-git clone https://github.com/ThompsonMss/gerenciamento-clientes-facilita-juridico
+git clone https://github.com/ThompsonMss/gerenciamento-clientes-facilita-juridico.git
 ```
 
 ```bash
